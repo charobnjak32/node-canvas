@@ -135,6 +135,7 @@ Context2d::Initialize(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE target) {
   Nan::SetPrototypeMethod(ctor, "createPattern", CreatePattern);
   Nan::SetPrototypeMethod(ctor, "createLinearGradient", CreateLinearGradient);
   Nan::SetPrototypeMethod(ctor, "createRadialGradient", CreateRadialGradient);
+  Nan::SetPrototypeMethod(ctor, "setCairoContext", SetCairoContext);
   Nan::SetAccessor(proto, Nan::New("pixelFormat").ToLocalChecked(), GetFormat);
   Nan::SetAccessor(proto, Nan::New("patternQuality").ToLocalChecked(), GetPatternQuality, SetPatternQuality);
   Nan::SetAccessor(proto, Nan::New("imageSmoothingEnabled").ToLocalChecked(), GetImageSmoothingEnabled, SetImageSmoothingEnabled);
@@ -2794,6 +2795,12 @@ NAN_METHOD(Context2d::MeasureText) {
   pango_font_metrics_unref(metrics);
 
   info.GetReturnValue().Set(obj);
+}
+
+NAN_METHOD(Context2d::SetCairoContext) {
+  cairo_t *ctx = (cairo_t*)Nan::To<v8::Object>(info[0]).ToLocalChecked()->GetAlignedPointerFromInternalField(0);
+  Context2d *context = Nan::ObjectWrap::Unwrap<Context2d>(info.This());
+  context->setContext(ctx);
 }
 
 /*

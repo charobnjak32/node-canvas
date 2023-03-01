@@ -183,6 +183,7 @@ class Context2d : public Nan::ObjectWrap {
     static NAN_SETTER(SetFont);
     static NAN_SETTER(SetTextBaseline);
     static NAN_SETTER(SetTextAlign);
+    static NAN_METHOD(SetCairoContext);
     inline void setContext(cairo_t *ctx) { _context = ctx; }
     inline cairo_t *context(){ return _context; }
     inline Canvas *canvas(){ return _canvas; }
