@@ -2800,7 +2800,10 @@ NAN_METHOD(Context2d::MeasureText) {
 NAN_METHOD(Context2d::SetCairoContext) {
   cairo_t *ctx = (cairo_t*)Nan::To<v8::Object>(info[0]).ToLocalChecked()->GetAlignedPointerFromInternalField(0);
   Context2d *context = Nan::ObjectWrap::Unwrap<Context2d>(info.This());
-  context->setContext(ctx);
+  cairo_t *prev = context->context();
+  context->setContext(cairo_reference(ctx));
+  context->resetState();
+  cairo_destroy(prev);
 }
 
 /*
